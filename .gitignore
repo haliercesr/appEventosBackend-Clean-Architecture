@@ -1,0 +1,7 @@
+//todo lo que sea codigo que se pueda generar no tiene que ser parte del repositorio
+
+.env
+
+node_modules/
+dist/
+build/

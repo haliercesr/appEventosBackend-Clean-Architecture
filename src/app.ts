@@ -7,6 +7,7 @@
 import { envs } from "./config";
 import { AppRoutes } from "./presentation/routes";
 import { Server } from "./presentation/server";
+import { MongoDatabase } from "./data/mongodb";
 
 
 (() => {
@@ -14,9 +15,12 @@ import { Server } from "./presentation/server";
 })()
 
 async function main() {
-    //todo: await base de datos
+  // Al querer levantar el servidor, hasta que no tenga una respuesta de la base de datos no va a seguir con ninguna otra ejecucion de codigo
+await MongoDatabase.connect({
+    dbName: envs.MONGO_DB_NAME,
+    mongoUrl: envs.MONGO_URL
+})
 
-    //todo: inicio de nuestro server
     new Server({
         port: envs.PORT,
         routes: AppRoutes.routes

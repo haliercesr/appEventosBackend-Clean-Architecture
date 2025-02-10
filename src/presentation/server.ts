@@ -22,8 +22,12 @@ export class Server {
 
     async start() {
 
+        //Middlewares, no son mas que funciones que se ejecutan antes de otras funciones
+        this.app.use(express.json());
+        this.app.use( express.urlencoded({extended:true})); // x-www-formurlencoded
+
         //Usar las rutas definidas
-        this.app.use( this.routes )
+        this.app.use(this.routes)
 
 
         //Escuchar el puerto

@@ -2,13 +2,18 @@
 // Aqui solo tienen que estar la definicion de la ruta, no debe contener lo que hace la ruta.
 import { Router } from 'express';
 import { AuthController } from './controller';
+import { AuthDatasourcesImpl, AuthRepositoryImpl } from '../../infrastructure';
 
 export class AuthRoutes {
 
     static get routes(): Router {
 
         const router = Router();
-        const controller = new AuthController();
+
+        const datasource = new AuthDatasourcesImpl();
+        const authRepository = new AuthRepositoryImpl(datasource);
+
+        const controller = new AuthController(authRepository);
 
         //Definir todas mis rutas principales
         router.post('/login', controller.loginUser)

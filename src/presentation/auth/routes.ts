@@ -10,7 +10,7 @@ export class AuthRoutes {
 
         const router = Router();
 
-        const datasource = new AuthDatasourcesImpl();
+        const datasource = new AuthDatasourcesImpl(); //por defecto usamos Bcrypt con el patron Adapter para encriptar contraseñas, se puede usar otras funciones
         const authRepository = new AuthRepositoryImpl(datasource);
 
         const controller = new AuthController(authRepository);

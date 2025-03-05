@@ -9,13 +9,23 @@
 
 
 import { Request, Response } from "express"
-import { AuthRepository, RegisterUserDto } from "../../domain";
+import { AuthRepository, CustomError, RegisterUserDto } from "../../domain";
 
 export class AuthController {
 
     constructor(
         private readonly authRepository: AuthRepository,
     ) { }
+
+    private handleError = (error: unknown, res: Response) => {  // unknow es similar a any pero no es lo mismo, unknow puede ser una excepcion controlada por mi o puede ser un error x, un error que la base de datoslo disparo o puede ser un error propio mio o puede ser un error que yo no sepa que esta pasando
+        if (error instanceof CustomError) {
+            return res.status(error.statusCode).json({ error: error.message });
+        }
+
+        console.log(error) //winston
+
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
 
     loginUser = (req: Request, res: Response) => {
         res.json('loginUser controller')
@@ -27,7 +37,7 @@ export class AuthController {
 
         this.authRepository.register(registerUserDto!)
             .then(user => res.json(user))
-            .catch(error => res.status(500).json(error))
+            .catch(error => this.handleError(error, res));
 
     }
 

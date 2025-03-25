@@ -4,7 +4,9 @@
 // en register nosotros sabemos que enviamos name,email y password y la comunicacion con la base de datos nos devuelve una promesa con la entidad UserEntity
 //Si llega a cambiar un dato o queremos enviar mas datos en nuestro register, aqui entra en juego nuestro RegisterUserDto. Cuando queramos modificar, validar o agregar otro dato solo modificamos el DTO  
 
-import { RegisterUserDto } from "../dtos/auth/register-user.dto";
+// import { RegisterUserDto } from "../dtos/auth/register-user.dto";
+// import { LoginUserDto } from "../dtos/auth/login-user.dto";
+import { LoginUserDto, RegisterUserDto } from "..";
 import { UserEntity } from "../entities/user.entity";
 
 export abstract class AuthDatasources{
@@ -16,5 +18,5 @@ export abstract class AuthDatasources{
     //abstract register(name:string, email:string, password:string ):Promise<UserEntity>
     abstract register(registerUserDto: RegisterUserDto ):Promise<UserEntity>
 
-    //abstract login(loginUserDto: LoginUserDto ):Promise<UserEntity>
+    abstract login(loginUserDto: LoginUserDto ):Promise<UserEntity>
 }

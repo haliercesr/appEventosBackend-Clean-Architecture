@@ -9,7 +9,7 @@
 //El repositorio se va a quedar igual, si cambio de base de datos lo que voy a estar cambiando en solo el Datasource.
 // En el constructor hacemos una inyeccion de dependencias
 
-import { AuthDatasources, AuthRepository, RegisterUserDto, UserEntity } from "../../domain";
+import { AuthDatasources, AuthRepository, RegisterUserDto, UserEntity, LoginUserDto } from "../../domain";
 
 
 export class AuthRepositoryImpl implements AuthRepository {
@@ -19,6 +19,9 @@ constructor (
 ) {}
     register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
         return this.authDatasource.register( registerUserDto )
+    }
+    login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+        return this.authDatasource.login( loginUserDto )
     }
     
 }

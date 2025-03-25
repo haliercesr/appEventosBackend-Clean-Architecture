@@ -1,5 +1,5 @@
 import { UserModel } from "../../data/mongodb";
-import { AuthDatasources, CustomError, RegisterUserDto, UserEntity } from "../../domain";
+import { AuthDatasources, CustomError, RegisterUserDto, LoginUserDto, UserEntity } from "../../domain";
 import { BcryptAdapter } from "../../config"; //usar el BcryptAdapter de esta forma (ver linea 22), directo en la contraseña, genera una dependencia oculta para la clase authDatasourceImpl y nosotros queremos que sea obvio si se necesita una depencencia, mas adelante lo cambiamos
 import { UserMapper } from "../mappers/user.mapper";
 //Si usaramos Bcrypt en la forma de la linea 22, al usar mi clase authDatasourcesImpl nadie sabria que estamos usando Bcrypt para encriptar las contraseñas a menos que tenga un problema o vea la clase de authDatasourcesImpl, por eso seria una dependencia oculta
@@ -10,8 +10,36 @@ type comparePassword = (password: string, hashed: string) => boolean
 export class AuthDatasourcesImpl implements AuthDatasources {
     constructor(
         private readonly hashPassword: hashFunction = BcryptAdapter.hash,  //Son valores por default, pero las dependencias ya son implicitas y no estan ocultas. Cualquiera puede usar otro tipo de encriptacion en mi authDatasourceImpl o usar las que estan por defecto
-        private readonly comparePassword: comparePassword =BcryptAdapter.compare
+        private readonly comparePassword: comparePassword = BcryptAdapter.compare
     ) { }
+
+    async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+
+        const { email, password } = loginUserDto;
+
+        try {
+
+            //1. Verificar si el usuario existe
+            const user = await UserModel.findOne({ email: email });
+            if (!user) throw CustomError.badRequest('Credenciales incorrectas')
+
+            const isMatching = this.comparePassword(password, user.password);
+            if (!isMatching) throw CustomError.badRequest('Credenciales incorrectas')
+
+
+            return UserMapper.userEntityFromObject(user);
+
+        } catch (error) {
+
+            if (error instanceof CustomError) {
+                throw error;
+            }
+
+            throw CustomError.internalServerError();
+
+        }
+
+    }
 
     async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
 

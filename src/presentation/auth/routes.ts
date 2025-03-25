@@ -3,6 +3,7 @@
 import { Router } from 'express';
 import { AuthController } from './controller';
 import { AuthDatasourcesImpl, AuthRepositoryImpl } from '../../infrastructure';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 export class AuthRoutes {
 
@@ -18,7 +19,7 @@ export class AuthRoutes {
         //Definir todas mis rutas principales
         router.post('/login', controller.loginUser)
         router.post('/register', controller.registerUser)
-
+        router.get('/', [AuthMiddleware.validateJWT] , controller.getUser) // Para poner mas de un middleware se usan corchetes y segun el orden en el array se van ejecutando de izquierda a derecha
 
         return router;
 

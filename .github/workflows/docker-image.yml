@@ -3,11 +3,6 @@ name: docker-image
 on:
   push:  
     branches: [ "dockerimage" ] # Cuando haya un push a la rama "refactor-microservicio-ingematica" se ejecuta el codigo
-  pull_request:
-    types:
-    - closed
-    branches:
-    - 'dockerimage'
 jobs:
    build_test: # Este es el identificador único del job
     name: "Build backend"  # Nombre descriptivo para mostrar en los logs

@@ -16,7 +16,7 @@ import { MongoDatabase } from "./data/mongodb";
 
 async function main() {
     console.log(envs.MONGO_DB_NAME,envs.MONGO_URL)
-   // Al querer levantar el servidor, hasta que no tenga una respuesta de la base de datos no va a seguir con ninguna otra ejecucion de codigo
+    // Al querer levantar el servidor, hasta que no tenga una respuesta de la base de datos no va a seguir con ninguna otra ejecucion de codigo
 await MongoDatabase.connect({
     dbName: envs.MONGO_DB_NAME,
     mongoUrl: envs.MONGO_URL

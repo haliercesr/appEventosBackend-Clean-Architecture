@@ -31,6 +31,9 @@ jobs:
           npm install
           npm ci
       # build and test the apps     
+    - name: Build and Test
+      run: |
+        npm run build  # Comando para construir la aplicación (ajustar según sea necesario)
 
 
    docker:

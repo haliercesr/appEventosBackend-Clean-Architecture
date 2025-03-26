@@ -53,4 +53,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: halier/appEventosbackend-clean-architecture:latest
+          tags: halier/appeventosbackend-clean-architecture:latest
